@@ -202,7 +202,7 @@ function App() {
 
         {/* Main Game Area */}
         <div className="game-area">
-          <h1 className="game-title">OM Training Quiz</h1>
+          <h1 className="game-title">新生用CCOM抽問</h1>
           
           {!hasSelectedChapters ? (
             <div className="warning-box">
@@ -215,7 +215,7 @@ function App() {
                 <p className="ready-mode">Mode: {quizMode === 'ALL' ? 'Random' : quizMode === 'CHAPTER' ? 'Chapter → Title' : 'Title → Chapter'}</p>
               </div>
               <button className="btn-start" onClick={startGame}>
-                🚀 Start Quiz
+                🚀 開始抽問
               </button>
             </div>
           ) : (
