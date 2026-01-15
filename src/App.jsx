@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './index.css';
 import data from './data';
+import beepSound from './assets/beep-0s.mp3';
 
 function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -9,6 +10,9 @@ function App() {
   const [timerActive, setTimerActive] = useState(false);
   const [shuffledData, setShuffledData] = useState([]);
   const [gameStarted, setGameStarted] = useState(false);
+  
+  // Audio ref
+  const audioRef = useRef(null);
   
   // Settings
   const [timerDuration, setTimerDuration] = useState(10);
@@ -62,6 +66,14 @@ function App() {
     setShuffledData(shuffled);
   };
 
+  // Play beep sound
+  const playBeep = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(err => console.log('Audio play failed:', err));
+    }
+  };
+
   // Timer effect
   useEffect(() => {
     let interval;
@@ -70,6 +82,7 @@ function App() {
         setTimeRemaining(prev => {
           if (prev <= 1) {
             setTimerActive(false);
+            playBeep(); // Play sound ONLY when timer reaches 0
             return 0;
           }
           return prev - 1;
@@ -137,6 +150,9 @@ function App() {
 
   return (
     <div className="container">
+      {/* Audio element */}
+      <audio ref={audioRef} src={beepSound} preload="auto" />
+      
       <div className="game-layout">
         {/* Left Sidebar - Settings */}
         <div className="settings-sidebar">
@@ -186,7 +202,7 @@ function App() {
 
         {/* Main Game Area */}
         <div className="game-area">
-          <h1 className="game-title">新生CCOM手冊抽問</h1>
+          <h1 className="game-title">OM Training Quiz</h1>
           
           {!hasSelectedChapters ? (
             <div className="warning-box">
